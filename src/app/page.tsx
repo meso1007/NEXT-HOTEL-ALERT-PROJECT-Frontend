@@ -22,19 +22,19 @@ export default function HomePage() {
   useEffect(() => {
     setMounted(true);
     const mockAlerts = [
-      { 
-        id: 1, 
-        hotel: 'グランドハイアット東京', 
-        currentPrice: 45000, 
-        targetPrice: 35000, 
-        status: 'active' 
+      {
+        id: 1,
+        hotel: 'グランドハイアット東京',
+        currentPrice: 45000,
+        targetPrice: 35000,
+        status: 'active'
       },
-      { 
-        id: 2, 
-        hotel: 'リッツカールトン大阪', 
-        currentPrice: 28000, 
-        targetPrice: 25000, 
-        status: 'triggered' 
+      {
+        id: 2,
+        hotel: 'リッツカールトン大阪',
+        currentPrice: 28000,
+        targetPrice: 25000,
+        status: 'triggered'
       },
     ];
     setAlerts(mockAlerts);
@@ -54,16 +54,16 @@ export default function HomePage() {
 
     try {
       await new Promise(resolve => setTimeout(resolve, 2000));
-      
+
       const success = Math.random() > 0.2;
-      
+
       if (success) {
         setMessage('アラートが正常に登録されました！');
         setIsSuccess(true);
         setEmail('');
         setHotelUrl('');
         setTargetPrice('');
-        
+
         const newAlert = {
           id: alerts.length + 1,
           hotel: 'New Hotel',
@@ -85,7 +85,7 @@ export default function HomePage() {
     }
   };
 
-  const handleKeyPress = (e : any) => {
+  const handleKeyPress = (e: any) => {
     if (e.key === 'Enter') {
       handleSubmit();
     }
@@ -103,37 +103,37 @@ export default function HomePage() {
         {[...Array(15)].map((_, i) => (
           <div
             key={i}
-            className="absolute w-2 h-2 bg-blue-400 rounded-full opacity-30"/>
+            className="absolute w-2 h-2 bg-blue-400 rounded-full opacity-30" />
         ))}
       </div>
 
       <div className="relative min-h-screen flex items-center justify-center p-4">
         <div className="w-full max-w-7xl mx-auto">
-              <div className={`transition-all duration-1000 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-                
-                {/* Header */}
-                <div className="text-center mb-8">
-                  <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl mb-6 shadow-2xl">
-                    <Hotel className="w-8 h-8 text-white" />
-                  </div>
-                  <h1 className="text-4xl lg:text-5xl font-bold text-white mb-3">
-                    <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                      Hotel Price Alert
-                    </span>
-                  </h1>
-                  <p className="text-gray-300 text-lg max-w-md mx-auto">
-                    理想の価格でホテルを予約しよう
-                  </p>
-                </div>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            
-            {/* Main Form Section */}
-            <div className="lg:col-span-2">
+          <div className={`transition-all duration-1000 ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+
+            {/* Header */}
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl mb-6 shadow-2xl">
+                <Hotel className="w-8 h-8 text-white" />
+              </div>
+              <h1 className="text-4xl lg:text-5xl font-bold text-white mb-3">
+                <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                  Hotel Price Alert
+                </span>
+              </h1>
+              <p className="text-gray-300 text-lg max-w-md mx-auto">
+                理想の価格でホテルを予約しよう
+              </p>
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+              {/* Main Form Section */}
+              <div className="lg:col-span-2">
 
                 {/* Form Card */}
                 <div className="bg-white bg-opacity-10 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-white border-opacity-20">
                   <div className="space-y-6">
-                    
+
                     {/* Email Input */}
                     <div className="space-y-2">
                       <label className="flex items-center text-sm font-medium text-gray-800">
@@ -203,11 +203,10 @@ export default function HomePage() {
 
                     {/* Message Display */}
                     {message && (
-                      <div className={`p-4 rounded-xl flex items-center transition-all duration-500 ${
-                        isSuccess 
-                          ? 'bg-green-500 bg-opacity-20 border border-green-400 border-opacity-30 text-green-300' 
+                      <div className={`p-4 rounded-xl flex items-center transition-all duration-500 ${isSuccess
+                          ? 'bg-green-500 bg-opacity-20 border border-green-400 border-opacity-30 text-green-300'
                           : 'bg-red-500 bg-opacity-20 border border-red-400 border-opacity-30 text-red-300'
-                      }`}>
+                        }`}>
                         {isSuccess ? (
                           <CheckCircle className="w-5 h-5 mr-2 flex-shrink-0" />
                         ) : (
@@ -235,94 +234,86 @@ export default function HomePage() {
                   </div>
                 </div>
               </div>
-                        {/* Alerts Sidebar */}
-            <div className="lg:col-span-1 w-full">
-              <div className={`transition-all duration-1000 delay-300 ${mounted ? 'translate-x-0 opacity-100' : 'translate-x-10 opacity-0'}`}>
-                <div className="bg-white bg-opacity-10 backdrop-blur-lg rounded-3xl p-6 shadow-2xl border border-white border-opacity-20 sticky top-4">
-                  
-                  {/* Header */}
-                  <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-xl font-semibold flex items-center">
-                      <TrendingDown className="w-5 h-5 mr-2 text-blue-400" />
-                      アラート一覧
-                    </h2>
-                    <span className="bg-blue-600 bg-opacity-20 text-gray-100 px-3 py-1 rounded-full text-xs font-medium">
-                      {alerts.length}件
-                    </span>
-                  </div>
+              {/* Alerts Sidebar */}
+              <div className="lg:col-span-1 w-full">
+                <div className={`transition-all duration-1000 delay-300 ${mounted ? 'translate-x-0 opacity-100' : 'translate-x-10 opacity-0'}`}>
+                  <div className="bg-white bg-opacity-10 backdrop-blur-lg rounded-3xl p-6 shadow-2xl border border-white border-opacity-20 sticky top-4">
 
-                  {/* Alert List */}
-                  <div className="space-y-4 max-h-96 overflow-y-auto">
-                    {alerts.map((alert, index) => (
-                      <div 
-                        key={alert.id} 
-                        className="bg-white bg-opacity-5 rounded-xl p-4 border border-white border-opacity-10 hover:bg-white hover:bg-opacity-10 transition-all duration-300"
-                      >
-                        <div className="flex items-center justify-between mb-3">
-                          <h3 className="font-medium  text-sm truncate pr-2">
-                            {alert.hotel}
-                          </h3>
-                          <span className={`px-2 py-1 rounded-full text-xs font-medium flex-shrink-0 ${
-                            alert.status === 'active' 
-                              ? 'bg-blue-600 bg-opacity-20 text-gray-100' 
-                              : 'bg-green-500 bg-opacity-20 text-gray-100'
-                          }`}>
-                            {alert.status === 'active' ? '監視中' : '条件達成'}
-                          </span>
-                        </div>
-                        
-                        <div className="grid grid-cols-2 gap-4 mb-3">
-                          <div>
-                            <div className="text-xs text-gray-400 mb-1">現在価格</div>
-                            <div className="text-lg font-bold ">
-                              ¥{alert.currentPrice.toLocaleString()}
-                            </div>
-                          </div>
-                          <div className="text-right">
-                            <div className="text-xs text-gray-400 mb-1">目標価格</div>
-                            <div className="text-sm font-semibold text-blue-500">
-                              ¥{alert.targetPrice.toLocaleString()}
-                            </div>
-                          </div>
-                        </div>
-                        
-                        {/* Progress Bar */}
-                        <div className="bg-white bg-opacity-10 rounded-full h-2">
-                          <div 
-                            className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full transition-all duration-1000"
-                            style={{ 
-                              width: `${Math.min((alert.targetPrice / alert.currentPrice) * 100, 100)}%` 
-                            }}
-                          />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Empty State */}
-                  {alerts.length === 0 && (
-                    <div className="text-center py-8">
-                      <div className="w-12 h-12 bg-gray-400 bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <Bell className="w-6 h-6 text-gray-400" />
-                      </div>
-                      <p className="text-gray-400 text-sm">まだアラートがありません</p>
+                    {/* Header */}
+                    <div className="flex items-center justify-between mb-6">
+                      <h2 className="text-xl font-semibold flex items-center">
+                        <TrendingDown className="w-5 h-5 mr-2 text-blue-400" />
+                        アラート一覧
+                      </h2>
+                      <span className="bg-blue-600 bg-opacity-20 text-gray-100 px-3 py-1 rounded-full text-xs font-medium">
+                        {alerts.length}件
+                      </span>
                     </div>
-                  )}
+
+                    {/* Alert List */}
+                    <div className="space-y-4 max-h-96 overflow-y-auto">
+                      {alerts.map((alert, index) => (
+                        <div
+                          key={alert.id}
+                          className="bg-white bg-opacity-5 rounded-xl p-4 border border-white border-opacity-10 hover:bg-white hover:bg-opacity-10 transition-all duration-300"
+                        >
+                          <div className="flex items-center justify-between mb-3">
+                            <h3 className="font-medium  text-sm truncate pr-2">
+                              {alert.hotel}
+                            </h3>
+                            <span className={`px-2 py-1 rounded-full text-xs font-medium flex-shrink-0 ${alert.status === 'active'
+                                ? 'bg-blue-600 bg-opacity-20 text-gray-100'
+                                : 'bg-green-500 bg-opacity-20 text-gray-100'
+                              }`}>
+                              {alert.status === 'active' ? '監視中' : '条件達成'}
+                            </span>
+                          </div>
+
+                          <div className="grid grid-cols-2 gap-4 mb-3">
+                            <div>
+                              <div className="text-xs text-gray-400 mb-1">現在価格</div>
+                              <div className="text-lg font-bold ">
+                                ¥{alert.currentPrice.toLocaleString()}
+                              </div>
+                            </div>
+                            <div className="text-right">
+                              <div className="text-xs text-gray-400 mb-1">目標価格</div>
+                              <div className="text-sm font-semibold text-blue-500">
+                                ¥{alert.targetPrice.toLocaleString()}
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Progress Bar */}
+                          <div className="bg-white bg-opacity-10 rounded-full h-2">
+                            <div
+                              className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full transition-all duration-1000"
+                              style={{
+                                width: `${Math.min((alert.targetPrice / alert.currentPrice) * 100, 100)}%`
+                              }}
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Empty State */}
+                    {alerts.length === 0 && (
+                      <div className="text-center py-8">
+                        <div className="w-12 h-12 bg-gray-400 bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                          <Bell className="w-6 h-6 text-gray-400" />
+                        </div>
+                        <p className="text-gray-400 text-sm">まだアラートがありません</p>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
             </div>
 
           </div>
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0px) rotate(0deg); }
-          50% { transform: translateY(-20px) rotate(180deg); }
-        }
-      `}</style>
     </div>
   );
 }
