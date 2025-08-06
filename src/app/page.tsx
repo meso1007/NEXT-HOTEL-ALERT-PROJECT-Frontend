@@ -21,24 +21,65 @@ export default function HomePage() {
   };
   useEffect(() => {
     setMounted(true);
-    const mockAlerts = [
-      {
-        id: 1,
-        hotel: 'グランドハイアット東京',
-        currentPrice: 45000,
-        targetPrice: 35000,
-        status: 'active'
-      },
-      {
-        id: 2,
-        hotel: 'リッツカールトン大阪',
-        currentPrice: 28000,
-        targetPrice: 25000,
-        status: 'triggered'
-      },
-    ];
-    setAlerts(mockAlerts);
+    fetchAlerts();
+    
+    // 5分ごとにアラート一覧を更新
+    const interval = setInterval(fetchAlerts, 5 * 60 * 1000);
+    
+    return () => clearInterval(interval);
   }, []);
+
+  const fetchAlerts = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/api/alerts', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success && data.alerts) {
+          setAlerts(data.alerts);
+        }
+      } else {
+        console.error('アラートの取得に失敗しました');
+        // フォールバック: モックデータを使用
+        const mockAlerts = [
+          {
+            id: 1,
+            hotel: 'グランドハイアット東京',
+            currentPrice: 45000,
+            targetPrice: 35000,
+            status: 'active'
+          },
+          {
+            id: 2,
+            hotel: 'リッツカールトン大阪',
+            currentPrice: 28000,
+            targetPrice: 25000,
+            status: 'triggered'
+          },
+        ];
+        setAlerts(mockAlerts);
+      }
+    } catch (error) {
+      console.error('API接続エラー:', error);
+      // フォールバック: モックデータを使用
+      const mockAlerts = [
+        {
+          id: 1,
+          hotel: 'グランドハイアット東京',
+          currentPrice: 45000,
+          targetPrice: 35000,
+          status: 'active'
+        },
+         
+      ];
+      setAlerts(mockAlerts);
+    }
+  };
 
   const handleSubmit = async () => {
     if (!email || !hotelUrl || !targetPrice) {
@@ -52,31 +93,38 @@ export default function HomePage() {
     setMessage('アラートを登録しています...');
     setIsSuccess(false);
 
+    const formData = new URLSearchParams();
+    formData.append('email', email);
+    formData.append('hotelUrl', hotelUrl);
+    formData.append('targetPrice', targetPrice);
+
     try {
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // 実際のバックエンドAPIを呼び出す
+      const response = await fetch('http://localhost:8080/api/alerts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: formData,
+      });
 
-      const success = Math.random() > 0.2;
-
-      if (success) {
+      if (response.ok) {
+        // サーバーからの成功レスポンス
         setMessage('アラートが正常に登録されました！');
         setIsSuccess(true);
         setEmail('');
         setHotelUrl('');
         setTargetPrice('');
-
-        const newAlert = {
-          id: alerts.length + 1,
-          hotel: 'New Hotel',
-          currentPrice: parseInt(targetPrice) + Math.floor(Math.random() * 10000),
-          targetPrice: parseInt(targetPrice),
-          status: 'active'
-        };
-        setAlerts(prev => [...prev, newAlert]);
+        
+        // アラート作成後に一覧を再取得
+        await fetchAlerts();
       } else {
+        // サーバーからのエラーレスポンス
         setMessage('アラートの登録に失敗しました。もう一度お試しください。');
         setIsSuccess(false);
       }
     } catch (error) {
+      // ネットワークエラーなど
       setMessage('エラーが発生しました。サーバーが起動しているか確認してください。');
       setIsSuccess(false);
     } finally {
